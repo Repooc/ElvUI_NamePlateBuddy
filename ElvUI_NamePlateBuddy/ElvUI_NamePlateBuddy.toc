@@ -1,0 +1,18 @@
+## Interface: 120005, 50503, 38000, 20505, 11508
+## Title: |cff1784d1ElvUI|r |cff00FF98NamePlate|r |cffA330C9Buddy|r
+## Author: Repooc
+## Version: @project-version@
+## X-PreviousVersion: 1.0
+## RequiredDeps: ElvUI
+## DefaultState: Enabled
+## X-Curse-Project-ID: 
+## X-Wago-ID: 
+## IconTexture: Interface\AddOns\ElvUI_NamePlateBuddy\Logo
+
+Profile.lua
+Media\SharedMedia.lua
+Libs\Load_Libs.xml
+Plugins\TargetIndicatorBorder.lua
+Core.lua
+Locales\Load_Locales.xml
+Options.lua

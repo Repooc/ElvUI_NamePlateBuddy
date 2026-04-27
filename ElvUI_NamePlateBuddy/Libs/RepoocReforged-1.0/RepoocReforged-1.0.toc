@@ -1,0 +1,11 @@
+## Interface: 110007, 40401, 11505
+## Author: Repooc
+## Version: 1.0
+## Title: Lib: RepoocReforged-1.0
+## Notes: Library that lets Repooc to modify one loction for the main section of the list of addons in the ElvUI options window.
+
+## X-Curse-Project-ID:
+## X-WoWI-ID:
+
+LibStub\LibStub.lua
+RepoocReforged-1.0.lua
