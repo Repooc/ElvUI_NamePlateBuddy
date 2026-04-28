@@ -131,14 +131,11 @@ local function configTable()
 		local elvDB = E.db.nameplates.units.TARGET
 		if db.enabled then
 			if E.Media.ArrowsBorder[db.arrow] then
-				print('1')
 				return elvDB.arrow == key
 			else
-				print('2')
 				return key == 'Arrow9'
 			end
 		else
-			print('3')
 			return elvDB.arrow == key
 		end
 	end
