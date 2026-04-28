@@ -5,8 +5,8 @@
 ## X-PreviousVersion: 1.0
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
-## X-Curse-Project-ID: 
-## X-Wago-ID: 
+## X-Curse-Project-ID: 1527058
+## X-Wago-ID: BKpgxy6E
 ## IconTexture: Interface\AddOns\ElvUI_NamePlateBuddy\Logo
 
 Profile.lua
