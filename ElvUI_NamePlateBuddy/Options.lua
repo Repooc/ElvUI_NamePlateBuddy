@@ -51,6 +51,7 @@ local function configTable()
     --* Repooc Reforged Plugin section
     local rrp = E.Options.args.rrp
     if not rrp then print("Error Loading Repooc Reforged Plugin Library") return end
+	RefreshArrows()
 
 	--* Plugin Section
 	local NameplateBuddy = ACH:Group(gsub(NPB.Title, "^.-|r%s", ""), nil, 6, 'tab', nil, nil, function() return not NP.Initialized end)
@@ -58,28 +59,20 @@ local function configTable()
 	NameplateBuddy.args.version = ACH:Header(format('|cff99ff33%s|r', NPB.versionString), 1)
 
 	--* General Tab
-	local General = ACH:Group(L["General"], nil, 1, 'tab', function(info) local t, d = E.db.npbuddy.nameplates[info[#info]], P.npbuddy.nameplates[info[#info]] return t.r, t.g, t.b, 1, d.r, d.g, d.b, 1 end, function(info, r, g, b) local t = E.db.npbuddy.nameplates[info[#info]] t.r, t.g, t.b = r, g, b NP:ConfigureAll() end)
+	local General = ACH:Group(L["General"], nil, 1, 'tab', function(info) if info.type == 'color' then local t, d = E.db.npbuddy.nameplates[info[#info]], P.npbuddy.nameplates[info[#info]] return t.r, t.g, t.b, t.a, d.r, d.g, d.b else return E.db.npbuddy.nameplates[info[#info]] end end, function(info, ...) if info.type == 'color' then local r, g, b, a = ... local t = E.db.npbuddy.nameplates[info[#info]] t.r, t.g, t.b, t.a = r, g, b, a or 1 else local value = ... E.db.npbuddy.nameplates[info[#info]] = value end NP:ConfigureAll() end)
 	NameplateBuddy.args.general = General
-	
+
 	local IndicatorBorder = ACH:Group(L["Indicator Border"], nil, 1)
 	General.args.indicatorBorder = IndicatorBorder
-
-	RefreshArrows()
-
-	do
-		local function GetFunc(info) return E.db.npbuddy.nameplates[info[#info]] end
-		local function SetFunc(info, value) E.db.npbuddy.nameplates[info[#info]] = value NP:ConfigureAll() RefreshArrows() E.Libs.AceConfigRegistry:NotifyChange('ElvUI') end
-		local disabled
-		IndicatorBorder.args.enabled = ACH:Toggle(L["Enable"], nil, 1, nil, nil, nil, GetFunc, SetFunc, disabled)
-	end
+	IndicatorBorder.args.enabled = ACH:Toggle(L["Enable"], nil, 1, nil, nil, nil, nil, function(info, value) E.db.npbuddy.nameplates[info[#info]] = value NP:ConfigureAll() RefreshArrows() E.Libs.AceConfigRegistry:NotifyChange('ElvUI') end)
 	IndicatorBorder.args.spacer1 = ACH:Spacer(2, 'full')
 	IndicatorBorder.args.color = ACH:Color(L["Border Color"], nil, 3)
 	IndicatorBorder.args.spacer2 = ACH:Spacer(4, 'full')
-	IndicatorBorder.args.colorByHealth = ACH:Toggle(L["Color by Health (Gradient)"], L["Enable smooth color transitions between good, average, and bad health colors based on health percentage."], 5, nil, nil, nil, function(info) return E.db.npbuddy.nameplates[info[#info]] end, function(info, value) E.db.npbuddy.nameplates[info[#info]] = value NP:ConfigureAll() end)
-	IndicatorBorder.args.colorByPlayerClass = ACH:Toggle(L["Color by Player Class"], L["Enable to color by your current class."], 6, nil, nil, nil, function(info) return E.db.npbuddy.nameplates[info[#info]] end, function(info, value) E.db.npbuddy.nameplates[info[#info]] = value NP:ConfigureAll() end)
+	IndicatorBorder.args.colorByHealth = ACH:Toggle(L["Color by Health (Gradient)"], L["Enable smooth color transitions between good, average, and bad health colors based on health percentage."], 5)
+	IndicatorBorder.args.colorByPlayerClass = ACH:Toggle(L["Color by Player Class"], L["Enable to color by your current class."], 6)
 
 	IndicatorBorder.args.spacer3 = ACH:Spacer(10, 'full')
-	
+
 	local HealthBreak = ACH:Group(L["Health Breakpoint"], nil, nil, nil, function(info) if info.type == 'color' then local t, d = E.db.npbuddy.nameplates.colors.healthBreak[info[#info]], P.npbuddy.nameplates.colors.healthBreak[info[#info]] return t.r, t.g, t.b, t.a, d.r, d.g, d.b else return E.db.npbuddy.nameplates.colors.healthBreak[info[#info]] end end, function(info, ...) if info.type == 'color' then local r, g, b, a = ... local t = E.db.npbuddy.nameplates.colors.healthBreak[info[#info]] t.r, t.g, t.b, t.a = r, g, b, a or 1 else local value = ... E.db.npbuddy.nameplates.colors.healthBreak[info[#info]] = value end NP:ConfigureAll() end)
 	IndicatorBorder.args.healthBreak = HealthBreak
 	HealthBreak.inline = true
