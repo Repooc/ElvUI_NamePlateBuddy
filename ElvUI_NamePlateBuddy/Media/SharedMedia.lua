@@ -19,7 +19,7 @@ local function AddMedia(Type, File)
 	end
 end
 
-for i = 0, 18, 1 do
+for i = 0, 19, 1 do
 	AddMedia('arrowborder', 'Arrow'..i)
 end
 AddMedia('arrowborder', 'Arrow27')
