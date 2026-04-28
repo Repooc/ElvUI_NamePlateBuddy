@@ -85,9 +85,9 @@ function NPB:Update_TargetIndicatorBorder(nameplate)
 	indicator.goodThreshold = npbDB.colors.healthBreak.threshold.good
 	indicator.high = npbDB.colors.healthBreak.high
 	indicator.low = npbDB.colors.healthBreak.low
-	indicator.bad = indicator.badThreshold and npbDB.colors.healthBreak.bad or indicator.borderColor
-	indicator.neutral = indicator.neutralThreshold and npbDB.colors.healthBreak.neutral or indicator.borderColor
-	indicator.good = indicator.goodThreshold and npbDB.colors.healthBreak.good or indicator.borderColor
+	indicator.bad = indicator.badThreshold and npbDB.colors.healthBreak.bad or indicator.colorByPlayerClass and E.myClassColor or indicator.borderColor
+	indicator.neutral = indicator.neutralThreshold and npbDB.colors.healthBreak.neutral or indicator.colorByPlayerClass and E.myClassColor or indicator.borderColor
+	indicator.good = indicator.goodThreshold and npbDB.colors.healthBreak.good or indicator.colorByPlayerClass and E.myClassColor or indicator.borderColor
 
 	if indicator.healthCurve then
 		indicator.healthCurve:ClearPoints()
