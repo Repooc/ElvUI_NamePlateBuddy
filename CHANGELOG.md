@@ -1,3 +1,4 @@
-v1.0 4/28/2026
+v1.1 4/30/2026
 
-• initial release
+• add support for 3 more arrows
+• fix options when selecting an arrow doesn't update the options properly
