@@ -22,4 +22,7 @@ end
 for i = 0, 19, 1 do
 	AddMedia('arrowborder', 'Arrow'..i)
 end
+for i = 21, 22, 1 do
+	AddMedia('arrowborder', 'Arrow'..i)
+end
 AddMedia('arrowborder', 'Arrow27')
