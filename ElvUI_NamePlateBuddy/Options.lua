@@ -69,7 +69,7 @@ local function configTable()
 	IndicatorBorder.args.color = ACH:Color(L["Border Color"], nil, 3)
 	IndicatorBorder.args.spacer2 = ACH:Spacer(4, 'full')
 	IndicatorBorder.args.colorByHealth = ACH:Toggle(L["Color by Health (Gradient)"], L["Enable smooth color transitions between good, average, and bad health colors based on health percentage."], 5)
-	IndicatorBorder.args.colorByPlayerClass = ACH:Toggle(L["Color by Player Class"], L["Enable to color by your current class."], 6)
+	IndicatorBorder.args.colorByPlayerClass = ACH:Toggle(L["Color by Class (Player)"], L["Enable to color by your current class."], 6)
 
 	IndicatorBorder.args.spacer3 = ACH:Spacer(10, 'full')
 
