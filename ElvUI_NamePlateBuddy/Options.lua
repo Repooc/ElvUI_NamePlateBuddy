@@ -123,7 +123,7 @@ local function configTable()
 		local db = E.db.npbuddy.nameplates
 		local elvDB = E.db.nameplates.units.TARGET
 		if db.enabled then
-			if E.Media.ArrowsBorder[db.arrow] then
+			if E.Media.ArrowsBorder[elvDB.arrow] then
 				return elvDB.arrow == key
 			else
 				return key == 'Arrow9'
