@@ -59,10 +59,11 @@ local function configTable()
 	NameplateBuddy.args.version = ACH:Header(format('|cff99ff33%s|r', NPB.versionString), 1)
 
 	--* General Tab
-	local General = ACH:Group(L["General"], nil, 1, 'tab', function(info) if info.type == 'color' then local t, d = E.db.npbuddy.nameplates[info[#info]], P.npbuddy.nameplates[info[#info]] return t.r, t.g, t.b, t.a, d.r, d.g, d.b else return E.db.npbuddy.nameplates[info[#info]] end end, function(info, ...) if info.type == 'color' then local r, g, b, a = ... local t = E.db.npbuddy.nameplates[info[#info]] t.r, t.g, t.b, t.a = r, g, b, a or 1 else local value = ... E.db.npbuddy.nameplates[info[#info]] = value end NP:ConfigureAll() end)
+	local General = ACH:Group(L["General"], nil, 1, 'tab')
 	NameplateBuddy.args.general = General
 
-	local IndicatorBorder = ACH:Group(L["Indicator Border"], nil, 1)
+	--* Indicator Border Tab
+	local IndicatorBorder = ACH:Group(L["Indicator Border"], nil, 1, nil, function(info) if info.type == 'color' then local t, d = E.db.npbuddy.nameplates[info[#info]], P.npbuddy.nameplates[info[#info]] return t.r, t.g, t.b, t.a, d.r, d.g, d.b else return E.db.npbuddy.nameplates[info[#info]] end end, function(info, ...) if info.type == 'color' then local r, g, b, a = ... local t = E.db.npbuddy.nameplates[info[#info]] t.r, t.g, t.b, t.a = r, g, b, a or 1 else local value = ... E.db.npbuddy.nameplates[info[#info]] = value end NP:ConfigureAll() end)
 	General.args.indicatorBorder = IndicatorBorder
 	IndicatorBorder.args.enabled = ACH:Toggle(L["Enable"], nil, 1, nil, nil, nil, nil, function(info, value) E.db.npbuddy.nameplates[info[#info]] = value NP:ConfigureAll() RefreshArrows() E.Libs.AceConfigRegistry:NotifyChange('ElvUI') end)
 	IndicatorBorder.args.spacer1 = ACH:Spacer(2, 'full')

@@ -20,5 +20,23 @@ P.npbuddy = {
 				}
 			}
 		}
+	},
+	castbar = {
+		isImportantBorder = {
+			enabled = true,
+			colorByPlayerClass = true,
+			color = { r = 1, g = 1, b = 0, a = 1 },
+			thickness = 2,
+			customGlow = {
+				style = 'Pixel Glow',
+				color = { r = 0.95, g = 0.95, b = 0, a = 0.9 },
+				startAnimation = true,
+				useColor = false,
+				duration = 1,
+				speed = 0.3,
+				lines = 8,
+				size = 1,
+			},
+		}
 	}
 }

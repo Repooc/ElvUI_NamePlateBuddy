@@ -12,7 +12,8 @@
 Profile.lua
 Media\SharedMedia.lua
 Libs\Load_Libs.xml
-Plugins\TargetIndicatorBorder.lua
 Core.lua
+Modules\Load_Modules.xml
+Plugins\Load_Plugins.xml
 Locales\Load_Locales.xml
 Options.lua
