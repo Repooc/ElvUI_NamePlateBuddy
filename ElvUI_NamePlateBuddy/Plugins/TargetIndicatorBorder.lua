@@ -87,7 +87,7 @@ local function Update(self)
 
 	HideIndicators(element)
 
-	if element.style ~= 'none' and element.border then
+	if element.style ~= 'none' and element.border and self.TargetIndicator:IsVisible() then
 		local isTarget = E:UnitIsUnit(self.unit, 'target')
 
 		if isTarget then
