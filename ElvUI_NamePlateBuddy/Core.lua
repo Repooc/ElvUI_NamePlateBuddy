@@ -51,10 +51,13 @@ function NPB:Initialize()
 		--* IsImportant CastBar Indicator Border
 		NPB:Construct_IsImportantBorder(nameplate.Castbar)
 	end)
-	NPB:SecureHook(NP, 'UpdatePlate', function(_, nameplate)
-		NPB:Update_TargetIndicatorBorder(nameplate)
+	NPB:SecureHook(NP, 'UpdatePlate', function(a, nameplate, updateBase)
+		local db = NP:PlateDB(nameplate)
+		if updateBase and db.enable then
+			NPB:Update_TargetIndicatorBorder(nameplate)
 
-		NPB:Update_IsImportantBorderStyle(nameplate.Castbar)
+			NPB:Update_IsImportantBorderStyle(nameplate.Castbar)
+		end
 	end)
 end
 

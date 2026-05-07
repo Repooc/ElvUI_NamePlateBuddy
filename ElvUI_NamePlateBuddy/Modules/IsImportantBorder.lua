@@ -40,22 +40,21 @@ function NPB:Update_IsImportantBorderStyle(castbar)
 	border:SetBackdropBorderColor(r, g, b, a)
 end
 
-local function HideBorder(castbar)
-	if not castbar or castbar and not castbar.IsImportantBorder then return end
-	if castbar.IsImportantBorder:IsShown() then
-		castbar.IsImportantBorder:Hide()
-		LCG.HideOverlayGlow(castbar.IsImportantBorder)
-	end
-end
+local function SetBorderVisibility(castbar, visible)
+	if not castbar or not castbar.IsImportantBorder then return end
 
-local function ShowBorder(castbar)
-	if not castbar or castbar and not castbar.IsImportantBorder then return end
-	local db = E.db.npbuddy.castbar.isImportantBorder
-	if db.enabled and not castbar.IsImportantBorder:IsShown() then
-		castbar.IsImportantBorder:Show()
-		castbar.IsImportantBorder:SetAlpha(1)
+	if visible then
+		local db = E.db.npbuddy.castbar.isImportantBorder
+		if db.enabled and not castbar.IsImportantBorder:IsShown() then
+			castbar.IsImportantBorder:Show()
+			castbar.IsImportantBorder:SetAlpha(1)
+			LCG.ShowOverlayGlow(castbar.IsImportantBorder, db.customGlow)
+		end
 	else
-		HideBorder(castbar)
+		if castbar.IsImportantBorder:IsShown() then
+			castbar.IsImportantBorder:Hide()
+			LCG.HideOverlayGlow(castbar.IsImportantBorder)
+		end
 	end
 end
 
@@ -74,31 +73,42 @@ function NPB:Castbar_PostCastStart(castbar)
 	if E:IsSecretValue(isImportant) then
 		border:Show()
 		border:SetAlphaFromBoolean(isImportant, 1, 0)
+		LCG.ShowOverlayGlow(border, db.customGlow)
 	elseif isImportant then
-		ShowBorder(castbar)
+		SetBorderVisibility(castbar, true)
 	else
-		HideBorder(castbar)
+		SetBorderVisibility(castbar, false)
+	end
+end
+
+local function SecureHookIfNeeded(method, callback)
+	if not NPB:IsHooked(NP, method) then
+		NPB:SecureHook(NP, method, callback)
+	end
+end
+
+local function UnhookIfNeeded(method)
+	if NPB:IsHooked(NP, method) then
+		NPB:Unhook(NP, method)
 	end
 end
 
 function NPB:SetupIsImportantBorder()
+	local methods = {
+		'Castbar_PostCastStop',
+		'Castbar_PostCastFail',
+		'Castbar_PostCastInterrupted',
+	}
+
 	if E.db.npbuddy.castbar.isImportantBorder.enabled then
-		if not NPB:IsHooked(NP, 'Castbar_PostCastStart') then
-			NPB:SecureHook(NP, 'Castbar_PostCastStart', function(castbar) NPB:Castbar_PostCastStart(castbar) end)
-		end
-		if not NPB:IsHooked(NP, 'Castbar_PostCastStop') then
-			NPB:SecureHook(NP, 'Castbar_PostCastStop', function(castbar) HideBorder(castbar) end)
-		end
-		if not NPB:IsHooked(NP, 'Castbar_PostCastFail') then
-			NPB:SecureHook(NP, 'Castbar_PostCastFail', function(castbar) HideBorder(castbar) end)
-		end
-		if not NPB:IsHooked(NP, 'Castbar_PostCastInterrupted') then
-			NPB:SecureHook(NP, 'Castbar_PostCastInterrupted', function(castbar) HideBorder(castbar) end)
+		SecureHookIfNeeded('Castbar_PostCastStart', function(castbar) NPB:Castbar_PostCastStart(castbar) end)
+		for _, method in ipairs(methods) do
+			SecureHookIfNeeded(method, function(castbar) SetBorderVisibility(castbar, false) end)
 		end
 	else
-		if NPB:IsHooked(NP, 'Castbar_PostCastStart') then NPB:Unhook(NP, 'Castbar_PostCastStart') end
-		if NPB:IsHooked(NP, 'Castbar_PostCastStop') then NPB:Unhook(NP, 'Castbar_PostCastStop') end
-		if NPB:IsHooked(NP, 'Castbar_PostCastFail') then NPB:Unhook(NP, 'Castbar_PostCastFail') end
-		if NPB:IsHooked(NP, 'Castbar_PostCastInterrupted') then NPB:Unhook(NP, 'Castbar_PostCastInterrupted') end
+		UnhookIfNeeded('Castbar_PostCastStart')
+		for _, method in ipairs(methods) do
+			UnhookIfNeeded(method)
+		end
 	end
 end

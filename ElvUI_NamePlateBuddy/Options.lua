@@ -47,6 +47,31 @@ local function RefreshArrows()
 	end
 end
 
+local function GetOptionValue(info, db, defaultDb)
+	local key = info[#info]
+	if info.type == 'color' then
+		local t, d = db[key], defaultDb[key]
+		return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+	else
+		return db[key]
+	end
+end
+
+local function SetOptionValue(info, db, updateFn, ...)
+	local key = info[#info]
+	if info.type == 'color' then
+		local r, g, b, a = ...
+		local t = db[key]
+		t.r, t.g, t.b, t.a = r, g, b, a or 1
+	else
+		local value = ...
+		db[key] = value
+	end
+	if updateFn then
+		updateFn()
+	end
+end
+
 local function configTable()
     --* Repooc Reforged Plugin section
     local rrp = E.Options.args.rrp
@@ -63,7 +88,7 @@ local function configTable()
 	NameplateBuddy.args.general = General
 
 	--* Indicator Border Tab
-	local IndicatorBorder = ACH:Group(L["Indicator Border"], nil, 1, nil, function(info) if info.type == 'color' then local t, d = E.db.npbuddy.nameplates[info[#info]], P.npbuddy.nameplates[info[#info]] return t.r, t.g, t.b, t.a, d.r, d.g, d.b else return E.db.npbuddy.nameplates[info[#info]] end end, function(info, ...) if info.type == 'color' then local r, g, b, a = ... local t = E.db.npbuddy.nameplates[info[#info]] t.r, t.g, t.b, t.a = r, g, b, a or 1 else local value = ... E.db.npbuddy.nameplates[info[#info]] = value end NP:ConfigureAll() end)
+	local IndicatorBorder = ACH:Group(L["Indicator Border"], nil, 1, nil, function(info) return GetOptionValue(info, E.db.npbuddy.nameplates, P.npbuddy.nameplates) end, function(info, ...) SetOptionValue(info, E.db.npbuddy.nameplates, function() NP:ConfigureAll() end, ...) end)
 	General.args.indicatorBorder = IndicatorBorder
 	IndicatorBorder.args.enabled = ACH:Toggle(L["Enable"], nil, 1, nil, nil, nil, nil, function(info, value) E.db.npbuddy.nameplates[info[#info]] = value NP:ConfigureAll() RefreshArrows() E.Libs.AceConfigRegistry:NotifyChange('ElvUI') end)
 	IndicatorBorder.args.spacer1 = ACH:Spacer(2, 'full')
@@ -74,7 +99,7 @@ local function configTable()
 
 	IndicatorBorder.args.spacer3 = ACH:Spacer(10, 'full')
 
-	local HealthBreak = ACH:Group(L["Health Breakpoint"], nil, nil, nil, function(info) if info.type == 'color' then local t, d = E.db.npbuddy.nameplates.colors.healthBreak[info[#info]], P.npbuddy.nameplates.colors.healthBreak[info[#info]] return t.r, t.g, t.b, t.a, d.r, d.g, d.b else return E.db.npbuddy.nameplates.colors.healthBreak[info[#info]] end end, function(info, ...) if info.type == 'color' then local r, g, b, a = ... local t = E.db.npbuddy.nameplates.colors.healthBreak[info[#info]] t.r, t.g, t.b, t.a = r, g, b, a or 1 else local value = ... E.db.npbuddy.nameplates.colors.healthBreak[info[#info]] = value end NP:ConfigureAll() end)
+	local HealthBreak = ACH:Group(L["Health Breakpoint"], nil, nil, nil, function(info) return GetOptionValue(info, E.db.npbuddy.nameplates.colors.healthBreak, P.npbuddy.nameplates.colors.healthBreak) end, function(info, ...) SetOptionValue(info, E.db.npbuddy.nameplates.colors.healthBreak, function() NP:ConfigureAll() end, ...) end)
 	IndicatorBorder.args.healthBreak = HealthBreak
 	HealthBreak.inline = true
 	HealthBreak.args.spacer1 = ACH:Spacer(2, 'full')
