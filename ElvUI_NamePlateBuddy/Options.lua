@@ -87,6 +87,31 @@ local function configTable()
 	local General = ACH:Group(L["General"], nil, 1, 'tab')
 	NameplateBuddy.args.general = General
 
+	--* CastBar Tab
+	local CastBar = ACH:Group(L["CastBar"], nil, 1, nil, function(info) return GetOptionValue(info, E.db.npbuddy.castbar, P.npbuddy.castbar) end, function(info, ...) SetOptionValue(info, E.db.npbuddy.castbar, function() NP:ConfigureAll() end, ...) end)
+	General.args.castBar = CastBar
+
+	local IsImportantBorder = ACH:Group(L["IsImportant Border"], nil, 1, nil, function(info) return GetOptionValue(info, E.db.npbuddy.castbar.isImportantBorder, P.npbuddy.castbar.isImportantBorder) end, function(info, ...) SetOptionValue(info, E.db.npbuddy.castbar.isImportantBorder, function() NP:ConfigureAll() end, ...) end)
+	CastBar.args.isImportantBorder = IsImportantBorder
+	IsImportantBorder.inline = true
+	IsImportantBorder.args.enabled = ACH:Toggle(L["Enable"], nil, 1)
+	IsImportantBorder.args.spacer1 = ACH:Spacer(2, 'full')
+	IsImportantBorder.args.color = ACH:Color(L["Border Color"], nil, 3)
+	IsImportantBorder.args.colorByPlayerClass = ACH:Toggle(L["Color by Class"], nil, 4)
+	IsImportantBorder.args.thickness = ACH:Range(L["Border Thickness"], nil, 5, { min = 1, max = 10, step = 1 })
+
+	IsImportantBorder.args.customGlow = ACH:Group(L["Custom Glow"], nil, 10, nil, function(info) return GetOptionValue(info, E.db.npbuddy.castbar.isImportantBorder.customGlow, P.npbuddy.castbar.isImportantBorder.customGlow) end, function(info, ...) SetOptionValue(info, E.db.npbuddy.castbar.isImportantBorder.customGlow, function() NP:ConfigureAll() end, ...) end)
+	IsImportantBorder.args.customGlow.inline = true
+	IsImportantBorder.args.customGlow.args.style = ACH:Select(L["Style"], nil, 1, function() local tbl = {} for _, name in next, E.Libs.CustomGlow.glowList do tbl[name] = L[name] end return tbl end)
+	IsImportantBorder.args.customGlow.args.speed = ACH:Range(L["SPEED"], nil, 2, { min = -1, max = 1, softMin = -0.5, softMax = 0.5, step = .01, bigStep = .05 }, nil, nil, nil, nil, function() return E.db.npbuddy.castbar.isImportantBorder.customGlow.style == 'Proc Glow' end)
+	IsImportantBorder.args.customGlow.args.duration = ACH:Range(L["SPEED"], nil, 2, { min = 0.1, max = 2, step = 0.1 }, nil, nil, nil, nil, function() return E.db.npbuddy.castbar.isImportantBorder.customGlow.style ~= 'Proc Glow' end)
+	IsImportantBorder.args.customGlow.args.size = ACH:Range(L["Size"], nil, 3, { min = 1, max = 5, step = 1 }, nil, nil, nil, nil, function() return E.db.npbuddy.castbar.isImportantBorder.customGlow.style ~= 'Pixel Glow' end)
+	IsImportantBorder.args.customGlow.args.lines = ACH:Range(function() return E.db.npbuddy.castbar.isImportantBorder.customGlow.style == 'Pixel Glow' and L["Lines"] or L["Particles"] end, nil, 4, { min = 1, max = 20, step = 1 }, nil, nil, nil, nil, function() local style = E.db.npbuddy.castbar.isImportantBorder.customGlow.style return style ~= 'Pixel Glow' and style ~= 'Autocast Shine' end)
+	IsImportantBorder.args.customGlow.args.startAnimation = ACH:Toggle(L["Start Animation"], nil, 5, nil, nil, nil, nil, nil, nil, function() return E.db.npbuddy.castbar.isImportantBorder.customGlow.style ~= 'Proc Glow' end)
+	IsImportantBorder.args.customGlow.args.spacer1 = ACH:Spacer(10, 'full', function() return E.db.npbuddy.castbar.isImportantBorder.customGlow.style == 'Action Button Glow' end)
+	IsImportantBorder.args.customGlow.args.useColor = ACH:Toggle(L["Custom Color"], nil, 11)
+	IsImportantBorder.args.customGlow.args.color = ACH:Color(L["COLOR"], nil, 12, true, nil, function(info) local c, d = E.db.npbuddy.castbar.isImportantBorder.customGlow[info[#info]], P.npbuddy.castbar.isImportantBorder.customGlow[info[#info]] return c.r, c.g, c.b, c.a, d.r, d.g, d.b, d.a end, function(info, r, g, b, a) local c = E.db.npbuddy.castbar.isImportantBorder.customGlow[info[#info]] c.r, c.g, c.b, c.a = r, g, b, a E:UpdateMedia() AB:AssistedGlowUpdate() end, function() return not E.db.npbuddy.castbar.isImportantBorder.customGlow.useColor end)
+
 	--* Indicator Border Tab
 	local IndicatorBorder = ACH:Group(L["Indicator Border"], nil, 1, nil, function(info) return GetOptionValue(info, E.db.npbuddy.nameplates, P.npbuddy.nameplates) end, function(info, ...) SetOptionValue(info, E.db.npbuddy.nameplates, function() NP:ConfigureAll() end, ...) end)
 	General.args.indicatorBorder = IndicatorBorder
