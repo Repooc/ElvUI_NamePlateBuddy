@@ -38,5 +38,9 @@ P.npbuddy = {
 				size = 1,
 			},
 		}
-	}
+	},
+	isFocus = {
+		enabled = true,
+		statusbar = 'Trenchy Focus',
+	},
 }

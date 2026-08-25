@@ -89,6 +89,8 @@ local function Update(self)
 
 	if element.style ~= 'none' and element.border and self.TargetIndicator:IsVisible() then
 		local isTarget = E:UnitIsUnit(self.unit, 'target')
+		-- local lowHealth = not E.Retail and (element.lowHealthThreshold > 0) --! ElvUI Orig
+		-- local lowHealth = not E.Retail and (element.low > 0)
 
 		if isTarget then
 			if element.colorByHealth or element.colorByPlayerClass then
@@ -100,6 +102,27 @@ local function Update(self)
 		else
 			ShowIndicators(element, isTarget, element.borderColor)
 		end
+		-- if element.colorByHealth then
+			-- local color = GetBorderColor(element, self.unit)
+			-- ShowIndicators(element, isTarget, color)
+		-- else
+			-- if isTarget and (element.preferGlowColor or not lowHealth) then --! ElvUI Orig
+			-- if isTarget and not lowHealth then
+			-- 	ShowIndicators(element, isTarget, element.borderColor)
+			-- elseif lowHealth then
+			-- 	-- local health, maxHealth = UnitHealth(self.unit), UnitHealthMax(self.unit)
+			-- 	-- local perc = (maxHealth > 0 and health/maxHealth) or 0
+
+			-- 	-- color tables are class updated in UpdateMedia
+			-- 	-- if perc <= element.low * 0.5 then
+			-- 	-- 	ShowIndicators(element, isTarget, NP.db.colors.lowHealthHalf)
+			-- 	-- elseif perc <= element.low then
+			-- 	-- 	ShowIndicators(element, isTarget, NP.db.colors.lowHealthColor)
+			-- 	-- elseif isTarget then
+			-- 		ShowIndicators(element, isTarget, element.borderColor)
+			-- 	-- end
+			-- end
+		-- end
 	end
 
 	if element.PostUpdate then

@@ -41,8 +41,12 @@ end
 
 function NPB:Initialize()
 	EP:RegisterPlugin(AddOnName, GetOptions, nil, NPB.versionString)
+	print(1)
 	if not NP.Initialized then return end
+	print(2)
 
+	NPB:SetupTargetIndicatorBorder()
+	NPB:SetupIsFocus()
 	NPB:SetupIsImportantBorder()
 	NPB:SecureHook(NP, 'StylePlate', function(_, nameplate)
 		--* Target Indicator Border
@@ -60,5 +64,6 @@ function NPB:Initialize()
 		end
 	end)
 end
+print('ElvUI_NamePlateBuddy v'..NPB.versionString..' Initialized')
 
 E.Libs.EP:HookInitialize(NPB, NPB.Initialize)
