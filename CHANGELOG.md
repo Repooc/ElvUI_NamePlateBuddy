@@ -1,4 +1,4 @@
-v1.1 4/30/2026
+v1.2 8/25/2026
 
-• add support for 3 more arrows
-• fix options when selecting an arrow doesn't update the options properly
+• add some wip stuff (don't recall the details or if they work lol...)
+• fix some issues with .unit checks as its now .__unit in elvui
