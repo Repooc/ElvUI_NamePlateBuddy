@@ -25,7 +25,8 @@ end
 
 function NPB:Update_IsFocus()
 	local db = E.db.npbuddy.isFocus
-	-- if not db.enabled then return end
+	if not db.enabled then return end
+
 	local defaultTex = LSM:Fetch('statusbar', NP.db.statusbar) or E.media.normTex
 	local focusPlate = db.enabled and C_NamePlate.GetNamePlateForUnit('focus')
 	local focusUF = focusPlate and focusPlate.unitFrame
