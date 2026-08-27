@@ -92,7 +92,6 @@ function NPB:Update_TargetIndicatorBorder(nameplate)
 end
 
 function NPB:SetupTargetIndicatorBorder()
-    print('Initialize Target Indicator Border')
 	-- NPB:SecureHook(NP, 'StylePlate', function(_, nameplate)
 	-- 	nameplate.TargetIndicatorBorder = NPB:Construct_TargetIndicatorBorder(nameplate)
 	-- end)
